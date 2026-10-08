@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 // API helpers. Base URL: VITE_API_URL if set; otherwise the local Spring Boot server while developing
 // and the deployed Render backend in a production build.
 const DEPLOYED_BACKEND = 'https://backend-gzvy.onrender.com'
 const API = import.meta.env.VITE_API_URL ?? (import.meta.env.PROD ? DEPLOYED_BACKEND : 'http://localhost:8080')
+=======
+// API helpers. Base URL comes from VITE_API_URL (default: the Spring Boot dev server).
+const API = import.meta.env.VITE_API_URL ?? 'http://127.0.0.1:8080'
+>>>>>>> 78021a711b20f94138a1023947e47272d19f5f23
 
 export function getToken() {
   try { return localStorage.getItem('jwt_token') } catch { return null }
@@ -27,11 +32,17 @@ export async function api(path, { method = 'GET', body } = {}) {
       body: body !== undefined ? JSON.stringify(body) : undefined,
     })
   } catch {
+<<<<<<< HEAD
     const base = API || window.location.origin
     throw new Error(`Can't reach the server at ${base}. Start the backend and open ${base}/api/health in a new tab; if that shows {"status":"ok"} the browser is blocking this page's address (CORS).`)
   }
 
 
+=======
+    throw new Error(`Can't reach the server at ${API}. Start the backend and open ${API}/api/health in a new tab; if that shows {"status":"ok"} the browser is blocking this page's address (CORS).`)
+  }
+
+>>>>>>> 78021a711b20f94138a1023947e47272d19f5f23
   if (res.status === 401 && path !== '/auth/login') {
     clearToken()
     window.dispatchEvent(new Event('auth:expired'))
@@ -41,4 +52,8 @@ export async function api(path, { method = 'GET', body } = {}) {
   const data = await res.json().catch(() => ({}))
   if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`)
   return data
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 78021a711b20f94138a1023947e47272d19f5f23
